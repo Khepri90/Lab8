@@ -1,0 +1,64 @@
+#ifndef INC_2021_SUMMER_CSCI2421_STREAMINGSERVICE_H
+#define INC_2021_SUMMER_CSCI2421_STREAMINGSERVICE_H
+
+#include "string"
+#include "memory"
+#include "Movie.h"
+#include "Actor.h"
+#include "list"
+
+/**TODO 0: Clean up includes.  */
+/** TODO 0: Check std::list documentation: https://en.cppreference.com/w/cpp/container/list */
+
+using namespace std;
+
+class StreamingService {
+private:
+    unique_ptr<list<shared_ptr<Movie>>> movies; /**TODO 1: Convert to std::list*/
+    unique_ptr<list<shared_ptr<Actor>>> actors; /**TODO 2: Convert to std::list*/
+
+public:
+    explicit StreamingService();
+
+    virtual ~StreamingService();
+
+    bool addMovie(const string &title, int year);
+
+    bool addActor(const string &name);
+
+    bool addActorToMovie(const string &title, const string &actorName);
+
+    bool isMovieAvailable(const string &title);
+
+    /**
+     * Searchs for a movie with the exact same title as the given argument.
+     * @param title
+     * @return
+     */
+    shared_ptr<Movie> searchMovieExact(const string &title);
+
+    /**
+     * Search for all movies that have the patter in their title (case-insensitive)
+     * @param titlePattern
+     * @return
+     */
+    vector<shared_ptr<Movie>> searchMoviePattern(const string &titlePattern);
+
+    /**
+     * Search for the Actor with the exact given name.
+     * @param actorName
+     * @return
+     */
+    shared_ptr<Actor> searchActor(const string &actorName);
+
+    friend std::ostream &operator<<(std::ostream &out, const StreamingService &service);
+
+    /**
+     * Sorts the movies by title.
+     */
+    void sortMovies() const;
+};
+
+#include "StreamingService.cpp"
+
+#endif
